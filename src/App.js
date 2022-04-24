@@ -11,10 +11,13 @@ const App = () => {
   const [selectedMovie, setSelectedMovie] = useState('');
   const [display, setDisplay] = useState(false);
   const [error, setError] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   const fetchMovies = async (movieIn) => {
     try {
-      const res = await fetch(`localhost:5000/recommend/${movieIn}`);
+      setLoaded(false);
+      const res = await fetch(`http://127.0.0.1:5000/recommend/${movieIn}`);
       setMovies(await res.json());
+      setLoaded(true);
     } catch {
       setError(true);
     }
@@ -55,19 +58,19 @@ const App = () => {
               setDisplay(true);
               if (e.key === 'Enter' && validMovie(selectedMovie)) {
                 setError(false);
-                setTimeout(() => fetchMovies(setSelectedMovie), 500);
+                setTimeout(() => fetchMovies(selectedMovie), 500);
                 // fetchMovies(selectedMovie);
               }
             }}
           />
-          {display && !error && (
+          {display && loaded && !error && (
             <div className="mt-8 flex flex-wrap justify-center gap-8">
-              {movies.map((i, idx) => (
+              {movies.map((movie, idx) => (
                 <div
-                  className="grid h-56 w-48 place-items-center overflow-hidden rounded-xl bg-blue-600 text-gray-300 shadow-2xl transition-all hover:scale-105"
-                  key={idx}
+                  className="grid h-56 w-48 place-items-center overflow-hidden rounded-xl bg-blue-600 p-4 text-gray-300 shadow-2xl transition-all hover:scale-105"
+                  key={movie.title}
                 >
-                  This is a movie box <br /> {i}
+                  {movie.title} <br /> {movie.id}
                 </div>
               ))}
             </div>
