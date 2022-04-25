@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import SelectSearch, { fuzzySearch } from 'react-select-search';
 import './styles/select-styles.css';
+import titles from './titles.json';
 
 const validMovie = (movie) => true;
 const backgroundLink =
@@ -24,6 +25,13 @@ const App = () => {
       setError(true);
     }
   };
+  const newTitles = titles.map((title) => {
+    const movieObj = {
+      name: title,
+      value: title,
+    };
+    return movieObj;
+  });
   return (
     <div
       className="min-h-screen bg-slate-500 text-center text-white antialiased"
@@ -65,12 +73,14 @@ const App = () => {
               }
             }}
           /> */}
+
           <div className="flex items-center justify-center gap-4 text-black">
             <SelectSearch
-              options={[
-                { name: 'Swedish', value: 'sv' },
-                { name: 'English', value: 'en' },
-              ]}
+              // options2={[
+              //   { name: 'Swedish', value: 'sv' },
+              //   { name: 'English', value: 'en' },
+              // ]}
+              options={newTitles}
               search
               filterOptions={fuzzySearch}
               placeholder="Select your country"
@@ -90,7 +100,7 @@ const App = () => {
               Suggest
             </button>
           </div>
-          {display && loaded && !error && (
+          {loaded && !error && (
             <div className="mt-8 flex flex-wrap justify-center gap-8">
               {movies.map((movie, idx) => (
                 <div

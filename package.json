@@ -13,7 +13,7 @@
     "dev:tailwind": "tailwindcss -i src/styles/tailwind.css -o src/styles/index.css -w",
     "dev:react": "react-scripts start",
     "start": "npm-run-all --parallel dev:*",
-    "tailwind:build": "NODE_ENV=production tailwindcss -i src/styles/tailwind.css -o src/styles/index.css --minify",
+    "tailwind:build": "tailwindcss -i src/styles/tailwind.css -o src/styles/index.css --minify",
     "prebuild": " npm run tailwind:build",
     "build": "react-scripts build",
     "inline": "npm run build && gulp"
