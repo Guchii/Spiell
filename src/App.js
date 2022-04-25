@@ -2,6 +2,8 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect, useState } from 'react';
+import SelectSearch, { fuzzySearch } from 'react-select-search';
+import './styles/select-styles.css';
 
 const validMovie = (movie) => true;
 const backgroundLink =
@@ -43,7 +45,7 @@ const App = () => {
           <label htmlFor="movie-name" className="mb-4 block">
             Enter/Choose a movie name
           </label>
-          <input
+          {/* <input
             type="text"
             id="movie-name"
             name="movie-name"
@@ -62,7 +64,32 @@ const App = () => {
                 // fetchMovies(selectedMovie);
               }
             }}
-          />
+          /> */}
+          <div className="flex items-center justify-center gap-4 text-black">
+            <SelectSearch
+              options={[
+                { name: 'Swedish', value: 'sv' },
+                { name: 'English', value: 'en' },
+              ]}
+              search
+              filterOptions={fuzzySearch}
+              placeholder="Select your country"
+              value={selectedMovie}
+              onChange={setSelectedMovie}
+            />
+            <button
+              type="button"
+              className="rounded-xl bg-red-500 p-2 px-8 text-white hover:shadow-2xl"
+              onClick={() => {
+                if (validMovie(selectedMovie)) {
+                  setError(false);
+                  setTimeout(() => fetchMovies(selectedMovie), 500);
+                }
+              }}
+            >
+              Suggest
+            </button>
+          </div>
           {display && loaded && !error && (
             <div className="mt-8 flex flex-wrap justify-center gap-8">
               {movies.map((movie, idx) => (
